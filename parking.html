@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Where Can I Park? 🚗</title>
+  <link rel="icon" href="https://www.sandiego.edu/favicon.ico" type="image/x-icon">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    h1 { color: #2a5d84; }
+    .box { border: 1px solid #ddd; padding: 15px; margin-top: 20px; border-radius: 8px; }
+    .label { font-weight: bold; color: #444; }
+    select { padding: 6px; font-size: 14px; }
+    img { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Where Can I Park? 🚦</h1>
+  <p>Select your <b>Permit Type</b> to view your parking rules:</p>
+
+  <select id="permitSelect">
+    <option value="">-- Select Permit Type --</option>
+  </select>
+
+  <div id="result" class="box" style="display:none;">
+    <p><span class="label">Permit Type:</span> <span id="permit"></span></p>
+    <p><span class="label">Assigned Parking Lots:</span> <span id="assigned"></span></p>
+    <p><span class="label">Off-Peak Parking 🌙:</span> <span id="offpeak"></span></p>
+    <p><span class="label">Overflow Parking 🚗:</span> <span id="overflow"></span></p>
+  </div>
+
+  <h2>Campus Parking Map</h2>
+  <img src="assets/usd-campus-v61.jpg" alt="University of San Diego Parking Map" style="max-width:100%; height:auto; border:1px solid #ccc; border-radius:8px;">
+
+  <script src="parking-data.js"></script>
+  <script>
+    // Populate dropdown
+    const select = document.getElementById("permitSelect");
+    parkingData.forEach(item => {
+      const option = document.createElement("option");
+      option.value = item.permit;
+      option.textContent = item.permit;
+      select.appendChild(option);
+    });
+
+    // Show results when user selects permit
+    select.addEventListener("change", function() {
+      const chosen = parkingData.find(p => p.permit === this.value);
+      if (chosen) {
+        document.getElementById("permit").textContent = chosen.permit;
+        document.getElementById("assigned").textContent = chosen.assigned;
+        document.getElementById("offpeak").textContent = chosen.offpeak;
+        document.getElementById("overflow").textContent = chosen.overflow;
+        document.getElementById("result").style.display = "block";
+      } else {
+        document.getElementById("result").style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
